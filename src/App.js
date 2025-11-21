@@ -1,32 +1,26 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
-import IngredientSearch from "./components/IngredientSearch/IngredientSearch";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import IngredientSearch from "../src/pages/FindRecipes/IngredientSearch";
 
 import "./App.css";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <div className="app-container">
-        {/* Navigation */}
-        <header className="header">
-          <nav>
-            <Link to="/">Ingredient Search</Link>
-            <Link to="/random">I'm Hungry</Link>
-            <Link to="/favorites">Favorites</Link>
-          </nav>
-        </header>
+        {/* Global Header */}
+        <Header />
 
-        {/* Main Content */}
+        {/* Page Content */}
         <main className="main-content">
           <Routes>
             <Route path="/" element={<IngredientSearch />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
 }
-
-export default App;
