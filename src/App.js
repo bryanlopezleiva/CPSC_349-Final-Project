@@ -7,6 +7,7 @@ import IngredientSearch from "./pages/FindRecipes/IngredientSearch";
 import Favorites from "./pages/Favorites/Favorites";
 import HungryPage from "./pages/HungryButton/HungryButton";
 import "./App.css";
+import RecipeDetail from "./pages/RecipeDetail/RecipeDetail";
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
               <Route path="/" element={<IngredientSearch />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/hungry" element={<HungryPage />} />{" "}
-              {/* ← Add this route */}
+              <Route path="/recipe/:id" element={<RecipeDetail />} />
             </Routes>
           </main>
           <Footer />

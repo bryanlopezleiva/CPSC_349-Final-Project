@@ -21,3 +21,11 @@ export const randomMeal = async () => {
   const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
   return res.json();
 };
+
+/// to display the instructions and rest of ingredients for a meal from it's meal id
+export const getMealID = async (id) => {
+  const res = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+  );
+  return res.json();
+};

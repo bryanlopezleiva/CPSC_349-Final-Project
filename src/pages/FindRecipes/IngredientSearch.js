@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { randomMeal, seachByIngredient } from "../../api/mealDBService.js";
-import { useFavorites } from "../../context/FavoritesContext.js";
+import { seachByIngredient } from "../../api/mealDBService.js";
+import { useFavorites } from "../../context/FavoritesContext";
 import RecipeCard from "../../components/RecipeCard/RecipeCard.js";
-import HungryButton from "../HungryButton/HungryButton.js";
 
 export default function FindRecipePage() {
   const [ingredients, setIngredients] = useState("");
@@ -12,7 +11,6 @@ export default function FindRecipePage() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-
     if (ingredients.trim() === "") {
       return;
     }
@@ -28,22 +26,7 @@ export default function FindRecipePage() {
     }
   };
 
-  const handleRandomMeal = async () => {
-    setLoading(true);
-    try {
-      const data = await randomMeal();
-      setRecipes(data.meals || []);
-      setIngredients("");
-    } catch (err) {
-      console.log("API Search Error:", err);
-      setRecipes([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    // We keep the main structure and styling consistent
     <div className="min-h-screen pt-24 pb-8 bg-gray-50">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 text-center mb-6">
@@ -66,20 +49,20 @@ export default function FindRecipePage() {
             <button
               type="submit"
               disabled={loading}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-200"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-200 disabled:opacity-50"
             >
-              {loading ? "Searching" : "Find Recipes"}
+              {loading ? "Searching..." : "Find Recipes"}
             </button>
           </div>
         </form>
 
-        <div className="text-center mt-6">
-          <HungryButton onClick={handleRandomMeal} loading={loading} />
-        </div>
-
         {/* Results Area */}
         <div className="mt-12">
-          {recipes.length > 0 ? (
+          {loading ? (
+            <p className="text-center text-gray-500">
+              Loading delicious recipes...
+            </p>
+          ) : recipes.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {recipes.map((meal) => (
                 <RecipeCard
@@ -91,7 +74,6 @@ export default function FindRecipePage() {
               ))}
             </div>
           ) : (
-            // This message appears if there are no recipes found
             <p className="text-center text-gray-500 mt-8">
               Start your search above to see meal ideas!
             </p>
