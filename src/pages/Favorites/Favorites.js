@@ -1,4 +1,3 @@
-import react from "react";
 import { useFavorites } from "../../context/FavoritesContext";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
 
