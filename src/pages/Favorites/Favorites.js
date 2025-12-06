@@ -18,7 +18,7 @@ export default function Favorites() {
           </p>
           <p className="text-gray-500 text-lg">
             {" "}
-            Startadding recipes by clicking the heart icon!{" "}
+            Start adding recipes by clicking the heart icon!{" "}
           </p>
         </div>
       ) : (
