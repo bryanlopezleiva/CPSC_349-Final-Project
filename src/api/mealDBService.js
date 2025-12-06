@@ -18,6 +18,6 @@ export const searchByName = async (name) => {
 };
 
 export const randomMeal = async () => {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+  const res = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
   return res.json();
 };

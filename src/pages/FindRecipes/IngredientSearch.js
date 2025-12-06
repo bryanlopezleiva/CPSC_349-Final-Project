@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { seachByIngredient } from "../../api/mealDBService.js";
+import { randomMeal, seachByIngredient } from "../../api/mealDBService.js";
+import { useFavorites } from "../../context/FavoritesContext.js";
 import RecipeCard from "../../components/RecipeCard/RecipeCard.js";
+import HungryButton from "../HungryButton/HungryButton.js";
 
 export default function FindRecipePage() {
   const [ingredients, setIngredients] = useState("");
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { toggleFavorite, isFavorited } = useFavorites();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -12,13 +16,29 @@ export default function FindRecipePage() {
     if (ingredients.trim() === "") {
       return;
     }
-
+    setLoading(true);
     try {
       const data = await seachByIngredient(ingredients.trim());
       setRecipes(data.meals || []);
     } catch (err) {
       console.log("API Search Error:", err);
       setRecipes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRandomMeal = async () => {
+    setLoading(true);
+    try {
+      const data = await randomMeal();
+      setRecipes(data.meals || []);
+      setIngredients("");
+    } catch (err) {
+      console.log("API Search Error:", err);
+      setRecipes([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,19 +65,29 @@ export default function FindRecipePage() {
             />
             <button
               type="submit"
+              disabled={loading}
               className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-200"
             >
-              Find Recipes
+              {loading ? "Searching" : "Find Recipes"}
             </button>
           </div>
         </form>
+
+        <div className="text-center mt-6">
+          <HungryButton onClick={handleRandomMeal} loading={loading} />
+        </div>
 
         {/* Results Area */}
         <div className="mt-12">
           {recipes.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {recipes.map((meal) => (
-                <RecipeCard key={meal.idMeal} meal={meal} />
+                <RecipeCard
+                  key={meal.idMeal}
+                  meal={meal}
+                  onFavorite={toggleFavorite}
+                  isFavorited={isFavorited(meal.idMeal)}
+                />
               ))}
             </div>
           ) : (
