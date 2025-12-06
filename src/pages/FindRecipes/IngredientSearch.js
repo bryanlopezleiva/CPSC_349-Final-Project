@@ -30,7 +30,7 @@ export default function FindRecipePage() {
     <div className="min-h-screen pt-24 pb-8 bg-gray-50">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-extrabold text-gray-800 text-center mb-6">
-          Ingredient-Based Recipe Finder 🥩🥕
+          Ingredient Based Recipe Finder 🥩🥕
         </h1>
 
         {/* Search Form */}
